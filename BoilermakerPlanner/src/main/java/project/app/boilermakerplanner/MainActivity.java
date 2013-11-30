@@ -16,7 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -25,7 +30,6 @@ public class MainActivity extends Activity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -43,8 +47,7 @@ public class MainActivity extends Activity
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
+                (DrawerLayout) findViewById(R.id.drawer_layout));    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -128,11 +131,20 @@ public class MainActivity extends Activity
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            // Grab the listview from fragment_main.xml
+            ListView listView = (ListView) rootView.findViewById(R.id.task_list);
+            // Cal is for dummy data.
+            Calendar cal = Calendar.getInstance();
+            cal.set(1,1,1,1,1);
+            ArrayList<Task> tasks = InfoCenter.getTasks(cal);
+            // Listviews need an adapter. simple_list... etc is a generic list layout
+            ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
+                                                                android.R.layout.simple_list_item_1,
+                                                                tasks);
+            listView.setAdapter(adapter);
             return rootView;
         }
 
