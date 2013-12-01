@@ -1,24 +1,17 @@
 package project.app.boilermakerplanner;
 
 import android.app.Activity;
-;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -141,9 +134,7 @@ public class MainActivity extends Activity
             cal.set(1,1,1,1,1);
             ArrayList<Task> tasks = InfoCenter.getTasks(cal);
             // Listviews need an adapter. simple_list... etc is a generic list layout
-            ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
-                                                                android.R.layout.simple_list_item_1,
-                                                                tasks);
+            TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity(),tasks);
             listView.setAdapter(adapter);
             return rootView;
         }
